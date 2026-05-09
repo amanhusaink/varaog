@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Antigravity Notes</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@400;600&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body class="min-h-screen text-slate-800 antialiased overflow-x-hidden flex items-center justify-center p-4">
+    <!-- Custom Cursor -->
+    <div id="custom-cursor" class="custom-cursor">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6 text-slate-600 drop-shadow-md cursor-icon">
+            <path d="M21.731 2.269a2.625 2.625 0 00-3.712 0l-1.157 1.158 3.712 3.712 1.158-1.157a2.625 2.625 0 000-3.713zM19.513 8.199l-3.712-3.712-8.4 8.4a5.25 5.25 0 00-1.32 2.214l-.8 2.685a.75.75 0 00.933.933l2.685-.8a5.25 5.25 0 002.214-1.32l8.4-8.4z" />
+            <path d="M5.25 5.25a3 3 0 00-3 3v10.5a3 3 0 003 3h10.5a3 3 0 003-3V13.5a.75.75 0 00-1.5 0v5.25a1.5 1.5 0 01-1.5 1.5H5.25a1.5 1.5 0 01-1.5-1.5V8.25a1.5 1.5 0 011.5-1.5h5.25a.75.75 0 000-1.5H5.25z" />
+        </svg>
+    </div>
+
+    <!-- Dashboard Toggle Button -->
+    <button id="dashboard-toggle" class="fixed top-6 left-6 z-50 bg-white/80 backdrop-blur-sm p-3 rounded-xl shadow-md text-slate-600 hover:text-slate-800 hover:scale-105 transition-all interactive" title="History Desk">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6A2.25 2.25 0 016 3.75h2.25A2.25 2.25 0 0110.5 6v2.25a2.25 2.25 0 01-2.25 2.25H6a2.25 2.25 0 01-2.25-2.25V6zM3.75 15.75A2.25 2.25 0 016 13.5h2.25a2.25 2.25 0 012.25 2.25V18a2.25 2.25 0 01-2.25 2.25H6A2.25 2.25 0 013.75 18v-2.25zM13.5 6a2.25 2.25 0 012.25-2.25H18A2.25 2.25 0 0120.25 6v2.25A2.25 2.25 0 0118 10.5h-2.25a2.25 2.25 0 01-2.25-2.25V6zM13.5 15.75a2.25 2.25 0 012.25-2.25H18a2.25 2.25 0 012.25 2.25V18A2.25 2.25 0 0118 20.25h-2.25A2.25 2.25 0 0113.5 18v-2.25z" />
+        </svg>
+    </button>
+
+    <!-- Dashboard View Container -->
+    <section id="dashboard-view" class="fixed inset-0 z-40 bg-[#fdfbf7]/95 backdrop-blur-md opacity-0 pointer-events-none transition-all duration-500 overflow-y-auto p-8 pt-24 pb-24">
+        <div class="max-w-6xl mx-auto">
+            <h2 class="text-5xl md:text-6xl font-['Caveat'] text-slate-800 mb-12 text-center drop-shadow-sm font-semibold">History Desk</h2>
+            
+            <h3 id="active-notes-title" class="text-3xl font-['Caveat'] text-slate-700 mb-6 hidden">Active Notes</h3>
+            <div id="dashboard-grid-active" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8 mb-16">
+                <!-- Mini notes injected by JS -->
+            </div>
+
+            <div id="trashed-section-container" class="hidden">
+                <h3 class="text-3xl font-['Caveat'] text-slate-700 mb-6 border-t border-slate-200 pt-8">Completed Notes</h3>
+                <div id="dashboard-grid-trashed" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
+                    <!-- Trashed notes injected by JS -->
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Main App Container -->
+    <main id="editor-view" class="w-full max-w-lg relative z-10 floating transition-all duration-500">
+        <div id="notebook-page" class="notebook-page max-h-[90vh] bg-[#fdfbf7] rounded-xl shadow-[0_20px_50px_rgba(0,0,0,0.1)] p-8 md:p-12 relative overflow-hidden" draggable="true">
+            <!-- Notebook Binding Holes (Decoration) -->
+            <div class="absolute left-4 top-0 bottom-0 flex flex-col justify-between py-12 pointer-events-none">
+                <div class="w-4 h-4 rounded-full bg-[#e2dfd8] shadow-inner"></div>
+                <div class="w-4 h-4 rounded-full bg-[#e2dfd8] shadow-inner"></div>
+                <div class="w-4 h-4 rounded-full bg-[#e2dfd8] shadow-inner"></div>
+                <div class="w-4 h-4 rounded-full bg-[#e2dfd8] shadow-inner"></div>
+                <div class="w-4 h-4 rounded-full bg-[#e2dfd8] shadow-inner"></div>
+            </div>
+
+            <!-- Header -->
+            <header class="mb-6 pl-8 relative z-10 flex items-center justify-between">
+                <div>
+                    <h1 class="text-4xl md:text-5xl font-['Caveat'] text-slate-800 tracking-wide font-semibold">My Notes</h1>
+                    <p class="text-slate-500 font-['Inter'] text-sm mt-1">Antigravity edition</p>
+                </div>
+                
+                <!-- Date Navigator -->
+                <div class="flex items-center gap-3 text-slate-600 bg-slate-100/50 px-3 py-1.5 rounded-full backdrop-blur-sm shadow-sm border border-slate-200/50">
+                    <button id="prev-day" class="p-1 hover:text-slate-800 hover:bg-slate-200 rounded-full transition-colors interactive">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-4 h-4"><path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5" /></svg>
+                    </button>
+                    <span id="current-date-display" class="font-['Inter'] text-sm font-medium min-w-[80px] text-center">Today</span>
+                    <button id="next-day" class="p-1 hover:text-slate-800 hover:bg-slate-200 rounded-full transition-colors interactive opacity-50 cursor-not-allowed" disabled>
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-4 h-4"><path stroke-linecap="round" stroke-linejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" /></svg>
+                    </button>
+                </div>
+            </header>
+
+            <!-- Input Area -->
+            <div class="mb-8 pl-8 relative z-10">
+                <form id="task-form" class="flex items-center gap-3">
+                    <input type="text" id="task-input" placeholder="What needs to be done?" 
+                        class="w-full bg-transparent border-b-2 border-slate-300 focus:border-slate-500 outline-none px-2 py-2 font-['Inter'] text-lg transition-colors placeholder:text-slate-400 interactive"
+                        autocomplete="off">
+                    <button type="submit" class="bg-slate-800 text-white rounded-full p-2 w-10 h-10 flex items-center justify-center hover:bg-slate-700 transition-colors shadow-lg interactive group">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-5 h-5 group-hover:rotate-90 transition-transform">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
+                        </svg>
+                    </button>
+                </form>
+            </div>
+
+            <!-- Task List -->
+            <ul id="task-list" class="space-y-4 pl-8 relative z-10">
+                <!-- Tasks will be injected here by JS -->
+            </ul>
+        </div>
+    </main>
+
+    <!-- Dustbin Container -->
+    <div id="dustbin" class="fixed right-6 bottom-6 w-20 h-24 flex flex-col items-center justify-center transition-all duration-300 opacity-20 z-50">
+        <svg id="dustbin-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-12 h-12 text-slate-500 mb-1 transition-transform origin-bottom">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M14.74 9l-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 01-2.244 2.077H8.084a2.25 2.25 0 01-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 00-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 013.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 00-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 00-7.5 0" />
+        </svg>
+        <span class="text-xs font-['Inter'] font-semibold text-slate-500 tracking-wider uppercase">Trash</span>
+    </div>
+
+    <!-- Floating Background Particles (Decoration) -->
+    <div class="fixed inset-0 pointer-events-none z-0 overflow-hidden" id="particles">
+        <!-- Generated by JS -->
+    </div>
+
+    <script src="script.js"></script>
+    <script src="draw.js"></script>
+</body>
+</html>

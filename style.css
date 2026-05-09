@@ -1,0 +1,282 @@
+/* Custom CSS Variables */
+:root {
+    --bg-color: #eef2f5;
+    --line-color: #d1d5db;
+    --primary-text: #1e293b;
+    --accent-red: #ef4444;
+}
+
+body {
+    background-color: var(--bg-color);
+    /* Hide default cursor */
+    cursor: none !important;
+}
+
+/* Lined paper effect */
+.notebook-page {
+    background-image: linear-gradient(var(--bg-color) 0.1em, transparent 0.1em);
+    background-size: 100% 2.5rem;
+    background-position: 0 4rem; /* Start lines below header */
+}
+
+/* Red margin line */
+.notebook-page::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 4rem;
+    width: 2px;
+    background-color: rgba(239, 68, 68, 0.3); /* Soft red line */
+    z-index: 0;
+}
+
+/* Antigravity floating animation */
+@keyframes float {
+    0% { transform: translateY(0px); }
+    50% { transform: translateY(-10px); }
+    100% { transform: translateY(0px); }
+}
+
+.floating {
+    animation: float 6s ease-in-out infinite;
+}
+
+/* Custom Cursor */
+.custom-cursor {
+    position: fixed;
+    top: 0;
+    left: 0;
+    pointer-events: none; /* Let clicks pass through */
+    z-index: 9999;
+    transform: translate(-50%, -50%); /* Center the icon */
+    transition: transform 0.1s ease-out;
+}
+
+.cursor-icon {
+    transition: transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    /* By default tilt a bit like holding a pen */
+    transform: rotate(0deg); 
+}
+
+/* When hovering over interactive elements */
+body.hovering .cursor-icon {
+    transform: scale(1.2) rotate(-15deg);
+    color: var(--primary-text);
+}
+
+body.clicking .cursor-icon {
+    transform: scale(0.9) rotate(10deg);
+}
+
+/* Make sure standard interactive elements also hide cursor */
+a, button, input, .interactive {
+    cursor: none !important;
+}
+
+/* Task Item Animations */
+@keyframes slideIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px) scale(0.95);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+.task-item {
+    animation: slideIn 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+}
+
+/* Pencil Strikethrough Effect */
+.strikethrough-container {
+    position: relative;
+    display: inline-block;
+}
+
+.strike-path {
+    stroke-dasharray: 100;
+    stroke-dashoffset: 100;
+    transition: stroke-dashoffset 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    opacity: 0.8;
+}
+
+.task-completed .strike-path {
+    stroke-dashoffset: 0;
+}
+
+.task-completed .task-text {
+    color: #94a3b8; /* Light gray */
+    transition: color 0.4s ease;
+}
+
+/* Delete Button hover effect */
+.delete-btn {
+    opacity: 0;
+    transform: translateX(-10px);
+    transition: all 0.2s ease;
+}
+
+.task-item:hover .delete-btn {
+    opacity: 1;
+    transform: translateX(0);
+}
+
+/* Particle Styles */
+.particle {
+    position: absolute;
+    background-color: rgba(148, 163, 184, 0.2);
+    border-radius: 50%;
+    animation: float-particle linear infinite;
+}
+
+@keyframes float-particle {
+    0% {
+        transform: translateY(100vh) scale(0);
+        opacity: 0;
+    }
+    50% {
+        opacity: 1;
+    }
+    100% {
+        transform: translateY(-100px) scale(1);
+        opacity: 0;
+    }
+}
+
+/* Crumpling animation during page drag */
+.crumpling-page {
+    opacity: 0.9 !important;
+    transform: scale(0.6) rotate(10deg) skewX(-15deg) !important;
+    transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275) !important;
+    filter: drop-shadow(10px 30px 20px rgba(0,0,0,0.3)) brightness(0.9) grayscale(20%);
+    pointer-events: none; /* Helps with drag drop targeting */
+    z-index: 50;
+}
+
+/* Fresh page drop-in animation */
+@keyframes slideDownPage {
+    0% { transform: translateY(-150%) rotate(-5deg); opacity: 0; }
+    100% { transform: translateY(0) rotate(0); opacity: 1; }
+}
+
+.fresh-page {
+    animation: slideDownPage 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+}
+
+/* Dustbin visibility logic */
+body.is-dragging #dustbin {
+    opacity: 0.8;
+}
+
+/* Dustbin active state */
+.dustbin-active {
+    opacity: 1 !important;
+    transform: scale(1.1) !important;
+}
+.dustbin-active svg {
+    color: #ef4444 !important; /* Tailwind red-500 */
+    transform: scale(1.2) rotate(-10deg);
+    filter: drop-shadow(0 0 8px rgba(239, 68, 68, 0.5));
+}
+
+/* Dashboard Toggle States */
+.editor-hidden {
+    opacity: 0 !important;
+    pointer-events: none !important;
+    transform: scale(0.9) translateY(20px) !important;
+}
+
+#dashboard-view.dashboard-active {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+/* Mini Note (Dashboard Item) */
+.mini-note {
+    background: #fdfbf7;
+    border-radius: 12px;
+    padding: 1.5rem;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.05);
+    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    position: relative;
+    border: 1px solid rgba(0,0,0,0.02);
+    transform: rotate(var(--rot, 0deg));
+}
+
+.mini-note:hover {
+    transform: translateY(-5px) scale(1.02) rotate(var(--rot, 0deg));
+    box-shadow: 0 15px 35px rgba(0,0,0,0.1);
+}
+
+.mini-note-title {
+    font-family: 'Caveat', cursive;
+    font-size: 2rem;
+    color: #1e293b;
+    margin-bottom: 0.5rem;
+    border-bottom: 1px dashed #cbd5e1;
+    padding-bottom: 0.25rem;
+}
+
+.mini-note-task {
+    font-family: 'Caveat', cursive;
+    font-size: 1.25rem;
+    color: #475569;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    margin-top: 0.25rem;
+}
+
+.mini-note-count {
+    position: absolute;
+    top: -10px;
+    right: -10px;
+    background: #1e293b;
+    color: white;
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Inter', sans-serif;
+    font-size: 0.75rem;
+    font-weight: 600;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+}
+
+/* Trashed Mini Note */
+.mini-note-trashed {
+    opacity: 0.85;
+    background: #f1f5f9; /* Slate 100 */
+    transform: scale(0.9) rotate(var(--rot, 15deg)) skewX(-5deg);
+    filter: drop-shadow(4px 8px 10px rgba(0,0,0,0.2)) brightness(0.95) grayscale(20%);
+}
+
+.mini-note-trashed:hover {
+    transform: scale(0.95) rotate(var(--rot, 15deg)) skewX(-2deg);
+    filter: drop-shadow(8px 16px 15px rgba(0,0,0,0.25)) brightness(1) grayscale(0%);
+    opacity: 1;
+}
+
+.mini-note-trashed::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image: repeating-linear-gradient(45deg, transparent, transparent 10px, rgba(0,0,0,0.03) 10px, rgba(0,0,0,0.03) 20px);
+    pointer-events: none;
+    border-radius: 12px;
+}
+
+/* Read Only Mode (Past Dates) */
+body.read-only-mode #task-form,
+body.read-only-mode .delete-btn {
+    display: none !important;
+}
+
+body.read-only-mode .task-item {
+    pointer-events: none !important;
+}
