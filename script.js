@@ -2,6 +2,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // --- State Management ---
     let tasks = JSON.parse(localStorage.getItem('antigravity_tasks')) || [];
 
+
     const getLocalYYYYMMDD = (date) => {
         const userTimezoneOffset = date.getTimezoneOffset() * 60000;
         return new Date(date.getTime() - userTimezoneOffset).toISOString().split('T')[0];
@@ -93,7 +94,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // --- Task Rendering ---
     const saveTasks = () => {
-        localStorage.setItem('antigravity_tasks', JSON.stringify(tasks));
+        const tasksJson = JSON.stringify(tasks);
+        localStorage.setItem('antigravity_tasks', tasksJson);
+
     };
 
     const renderTasks = () => {
