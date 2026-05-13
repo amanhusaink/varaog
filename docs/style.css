@@ -327,6 +327,58 @@ section {
   font-size: 0.9rem;
 }
 
+/* Installation Guide */
+.installation-guide {
+  max-width: 700px;
+  margin: 4rem auto 0;
+  background: #fffdf5;
+  border: 1px solid #e2e8f0;
+  border-radius: 20px;
+  padding: 2rem;
+  text-align: left;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.02);
+}
+
+.installation-guide h4 {
+  font-size: 1.2rem;
+  color: var(--primary);
+  margin-bottom: 0.5rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.installation-guide p {
+  font-size: 0.95rem;
+  color: var(--text-muted);
+  margin-bottom: 1.5rem;
+}
+
+.guide-steps {
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+}
+
+.guide-step {
+  background: #fff;
+  padding: 1rem 1.2rem;
+  border-radius: 12px;
+  border: 1px solid var(--border);
+  font-size: 0.95rem;
+  color: var(--text);
+}
+
+.guide-step em {
+  font-style: normal;
+  background: var(--bg);
+  padding: 0.2rem 0.5rem;
+  border-radius: 6px;
+  font-weight: 600;
+  border: 1px solid var(--border);
+  font-size: 0.85rem;
+}
+
 /* Footer */
 footer {
   padding: 4rem 0;
