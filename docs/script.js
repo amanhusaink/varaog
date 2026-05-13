@@ -34,14 +34,14 @@ document.addEventListener('DOMContentLoaded', () => {
     el.style.transition = 'all 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275)';
     observer.observe(el);
   });
-  
+
   // OS Detection for primary download highlighting
   const userAgent = navigator.userAgent.toLowerCase();
   let os = "";
-  
+
   if (userAgent.indexOf("win") !== -1) os = "Windows";
   if (userAgent.indexOf("mac") !== -1) os = "macOS";
-  
+
   if (os) {
     const downloadCards = document.querySelectorAll('.download-card');
     downloadCards.forEach(card => {
