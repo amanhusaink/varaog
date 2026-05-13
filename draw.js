@@ -14,8 +14,8 @@ document.addEventListener('DOMContentLoaded', () => {
     let initialX = 0;
     let initialY = 0;
 
-    // Listen for mousedown on task items to start drawing
-    taskList.addEventListener('mousedown', (e) => {
+    // Listen for pointerdown on task items to start drawing
+    taskList.addEventListener('pointerdown', (e) => {
         const container = e.target.closest('.strikethrough-container');
         if (!container) return;
         
@@ -56,7 +56,7 @@ document.addEventListener('DOMContentLoaded', () => {
         e.preventDefault(); // Prevent text selection while drawing
     });
 
-    document.addEventListener('mousemove', (e) => {
+    document.addEventListener('pointermove', (e) => {
         if (!isDrawing || !targetContainer) return;
         
         const dx = e.clientX - initialX;
@@ -81,7 +81,7 @@ document.addEventListener('DOMContentLoaded', () => {
         currentPath.setAttribute('d', pathData);
     });
 
-    document.addEventListener('mouseup', (e) => {
+    document.addEventListener('pointerup', (e) => {
         if (!isDrawing) return;
         isDrawing = false;
         

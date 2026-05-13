@@ -58,7 +58,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // --- Custom Cursor Logic ---
     const cursor = document.getElementById('custom-cursor');
-    document.addEventListener('mousemove', (e) => {
+    document.addEventListener('pointermove', (e) => {
         cursor.style.left = e.clientX + 'px';
         cursor.style.top = e.clientY + 'px';
     });
@@ -388,69 +388,99 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     };
 
-    // --- Page Drag and Drop to Dustbin Logic ---
+    // --- Page Drag and Drop to Dustbin Logic (Pointer-based for Mobile Support) ---
     const dustbin = document.getElementById('dustbin');
     let isDraggingPage = false;
+    let dragStartX = 0;
+    let dragStartY = 0;
+    let initialPageX = 0;
+    let initialPageY = 0;
 
-    notebookPage.addEventListener('dragstart', (e) => {
+    notebookPage.addEventListener('pointerdown', (e) => {
+        // Only allow dragging if we are not clicking an interactive element
+        if (e.target.closest('.interactive, button, input')) return;
+        
         isDraggingPage = true;
+        dragStartX = e.clientX;
+        dragStartY = e.clientY;
+        
+        const rect = notebookPage.getBoundingClientRect();
+        initialPageX = rect.left;
+        initialPageY = rect.top;
+
+        notebookPage.setPointerCapture(e.pointerId);
         
         setTimeout(() => {
-            notebookPage.classList.add('crumpling-page');
-            document.body.classList.add('is-dragging');
-        }, 0);
-        
-        e.dataTransfer.effectAllowed = 'move';
-        e.dataTransfer.setData('text/plain', 'page');
+            if (isDraggingPage) {
+                notebookPage.classList.add('crumpling-page');
+                document.body.classList.add('is-dragging');
+            }
+        }, 100);
     });
 
-    notebookPage.addEventListener('dragend', (e) => {
+    notebookPage.addEventListener('pointermove', (e) => {
+        if (!isDraggingPage) return;
+        
+        const dx = e.clientX - dragStartX;
+        const dy = e.clientY - dragStartY;
+        
+        // Move the page
+        notebookPage.style.transform = `translate(${dx}px, ${dy}px) scale(0.9) rotate(${dx/20}deg)`;
+        
+        // Check if over dustbin
+        const dustbinRect = dustbin.getBoundingClientRect();
+        if (e.clientX > dustbinRect.left && e.clientX < dustbinRect.right &&
+            e.clientY > dustbinRect.top && e.clientY < dustbinRect.bottom) {
+            dustbin.classList.add('dustbin-active');
+        } else {
+            dustbin.classList.remove('dustbin-active');
+        }
+    });
+
+    notebookPage.addEventListener('pointerup', (e) => {
+        if (!isDraggingPage) return;
         isDraggingPage = false;
+        notebookPage.releasePointerCapture(e.pointerId);
+        
         notebookPage.classList.remove('crumpling-page');
         document.body.classList.remove('is-dragging');
-        dustbin.classList.remove('dustbin-active');
-    });
-
-    dustbin.addEventListener('dragover', (e) => {
-        if (!isDraggingPage) return;
-        e.preventDefault(); 
-        e.dataTransfer.dropEffect = 'move';
-        dustbin.classList.add('dustbin-active');
-    });
-
-    dustbin.addEventListener('dragleave', () => {
-        dustbin.classList.remove('dustbin-active');
-    });
-
-    dustbin.addEventListener('drop', (e) => {
-        if (!isDraggingPage || !currentNoteId) return;
-        e.preventDefault();
-        dustbin.classList.remove('dustbin-active');
-        document.body.classList.remove('is-dragging');
         
-        notebookPage.style.transition = 'all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275)';
-        notebookPage.style.transform = 'scale(0) translate(100%, 100%)';
-        notebookPage.style.opacity = '0';
+        const dustbinRect = dustbin.getBoundingClientRect();
+        const isOverDustbin = (e.clientX > dustbinRect.left && e.clientX < dustbinRect.right &&
+                               e.clientY > dustbinRect.top && e.clientY < dustbinRect.bottom);
         
-        setTimeout(() => {
-            const note = getNote(currentNoteId);
-            if (note) {
-                // If note has 0 tasks, permanently delete it
-                if (note.tasks.filter(t => !t.trashed).length === 0) {
-                    notes = notes.filter(n => n.id !== currentNoteId);
-                } else {
-                    note.trashed = true;
+        if (isOverDustbin && currentNoteId) {
+            dustbin.classList.remove('dustbin-active');
+            
+            notebookPage.style.transition = 'all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275)';
+            notebookPage.style.transform = 'scale(0) translate(100%, 100%)';
+            notebookPage.style.opacity = '0';
+            
+            setTimeout(() => {
+                const note = getNote(currentNoteId);
+                if (note) {
+                    if (note.tasks.filter(t => !t.trashed).length === 0) {
+                        notes = notes.filter(n => n.id !== currentNoteId);
+                    } else {
+                        note.trashed = true;
+                    }
+                    saveNotes();
                 }
-                saveNotes();
-            }
-            
-            notebookPage.style.transition = 'none';
+                
+                notebookPage.style.transition = 'none';
+                notebookPage.style.transform = 'none';
+                notebookPage.style.opacity = '1';
+                closeNote();
+            }, 400);
+        } else {
+            // Reset position
+            notebookPage.style.transition = 'transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275)';
             notebookPage.style.transform = 'none';
-            notebookPage.style.opacity = '1';
-            
-            notebookPage.classList.remove('crumpling-page');
-            closeNote(); // Go back to wall
-        }, 400);
+            dustbin.classList.remove('dustbin-active');
+            setTimeout(() => {
+                notebookPage.style.transition = 'none';
+            }, 300);
+        }
     });
 
     // --- Initialization ---
