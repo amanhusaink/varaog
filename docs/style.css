@@ -285,6 +285,22 @@ section {
   box-shadow: 0 20px 50px rgba(0,0,0,0.05);
 }
 
+.download-card.coming-soon {
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+
+.download-card.coming-soon:hover {
+  transform: none;
+  box-shadow: none;
+  background: var(--bg);
+  border-color: transparent;
+}
+
+.download-card.coming-soon .dl-btn {
+  background: var(--text-muted);
+}
+
 .os-icon {
   font-size: 3.5rem;
   margin-bottom: 1.5rem;
