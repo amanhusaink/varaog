@@ -3,3 +3,6 @@ build/
 /dist/
 .DS_Store
 *.log
+cmdline-tools.zip
+jdk21.tar.gz
+jdk21.tar.gz
