@@ -97,18 +97,13 @@ document.addEventListener('DOMContentLoaded', () => {
                 if (!isNaN(index)) {
                     
                     // Save custom path to the task so it stays exactly as drawn
-                    const tasks = JSON.parse(localStorage.getItem('antigravity_tasks')) || [];
-                    if (tasks[index]) {
-                        // Normalize path to a 0-100 viewBox width so it's responsive
-                        const scaleX = 100 / containerWidth;
-                        // Replace the absolute coordinates with scaled coordinates
-                        const normalizedPath = pathData.replace(/([ML])\s+([0-9.]+)\s+([0-9.-]+)/g, (m, cmd, px, py) => {
-                            return `${cmd} ${parseFloat(px) * scaleX} ${parseFloat(py)}`;
-                        });
-                        
-                        tasks[index].customPath = normalizedPath;
-                        tasks[index].height = rect.height || 30;
-                        localStorage.setItem('antigravity_tasks', JSON.stringify(tasks));
+                    const scaleX = 100 / containerWidth;
+                    const normalizedPath = pathData.replace(/([ML])\s+([0-9.]+)\s+([0-9.-]+)/g, (m, cmd, px, py) => {
+                        return `${cmd} ${parseFloat(px) * scaleX} ${parseFloat(py)}`;
+                    });
+                    
+                    if (window.saveCustomPath) {
+                        window.saveCustomPath(index, normalizedPath, rect.height || 30);
                     }
 
                     // Complete the task

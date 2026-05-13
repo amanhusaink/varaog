@@ -3,39 +3,68 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Antigravity Notes</title>
+    <title>Vara</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {}
+            }
+        }
+    </script>
     <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@400;600&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
 </head>
-<body class="min-h-screen text-slate-800 antialiased overflow-x-hidden flex items-center justify-center p-4">
+<body class="min-h-screen text-slate-800 dark:text-slate-200 antialiased overflow-x-hidden flex items-center justify-center p-4 transition-colors duration-500">
     <!-- Custom Cursor -->
     <div id="custom-cursor" class="custom-cursor">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6 text-slate-600 drop-shadow-md cursor-icon">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6 text-slate-600 dark:text-slate-400 drop-shadow-md cursor-icon">
             <path d="M21.731 2.269a2.625 2.625 0 00-3.712 0l-1.157 1.158 3.712 3.712 1.158-1.157a2.625 2.625 0 000-3.713zM19.513 8.199l-3.712-3.712-8.4 8.4a5.25 5.25 0 00-1.32 2.214l-.8 2.685a.75.75 0 00.933.933l2.685-.8a5.25 5.25 0 002.214-1.32l8.4-8.4z" />
             <path d="M5.25 5.25a3 3 0 00-3 3v10.5a3 3 0 003 3h10.5a3 3 0 003-3V13.5a.75.75 0 00-1.5 0v5.25a1.5 1.5 0 01-1.5 1.5H5.25a1.5 1.5 0 01-1.5-1.5V8.25a1.5 1.5 0 011.5-1.5h5.25a.75.75 0 000-1.5H5.25z" />
         </svg>
     </div>
 
-    <!-- Dashboard Toggle Button -->
-    <button id="dashboard-toggle" class="fixed top-6 left-6 z-50 bg-white/80 backdrop-blur-sm p-3 rounded-xl shadow-md text-slate-600 hover:text-slate-800 hover:scale-105 transition-all interactive" title="History Desk">
-        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
-            <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6A2.25 2.25 0 016 3.75h2.25A2.25 2.25 0 0110.5 6v2.25a2.25 2.25 0 01-2.25 2.25H6a2.25 2.25 0 01-2.25-2.25V6zM3.75 15.75A2.25 2.25 0 016 13.5h2.25a2.25 2.25 0 012.25 2.25V18a2.25 2.25 0 01-2.25 2.25H6A2.25 2.25 0 013.75 18v-2.25zM13.5 6a2.25 2.25 0 012.25-2.25H18A2.25 2.25 0 0120.25 6v2.25A2.25 2.25 0 0118 10.5h-2.25a2.25 2.25 0 01-2.25-2.25V6zM13.5 15.75a2.25 2.25 0 012.25-2.25H18a2.25 2.25 0 012.25 2.25V18A2.25 2.25 0 0118 20.25h-2.25A2.25 2.25 0 0113.5 18v-2.25z" />
+
+
+    <!-- Theme Toggle Button -->
+    <button id="theme-toggle" class="fixed top-6 right-6 z-50 bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm p-3 rounded-xl shadow-md text-slate-600 dark:text-slate-300 hover:text-slate-800 dark:hover:text-white hover:scale-105 transition-all interactive border border-transparent dark:border-slate-700" title="Toggle Theme">
+        <!-- Sun icon -->
+        <svg id="theme-icon-light" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6 hidden dark:block">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M12 3v2.25m6.364.386l-1.591 1.591M21 12h-2.25m-.386 6.364l-1.591-1.591M12 18.75V21m-4.773-4.227l-1.591 1.591M5.25 12H3m4.227-4.773L5.636 5.636M15.75 12a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0z" />
+        </svg>
+        <!-- Moon icon -->
+        <svg id="theme-icon-dark" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6 block dark:hidden">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M21.752 15.002A9.718 9.718 0 0118 15.75c-5.385 0-9.75-4.365-9.75-9.75 0-1.33.266-2.597.748-3.752A9.753 9.753 0 003 11.25C3 16.635 7.365 21 12.75 21a9.753 9.753 0 009.002-5.998z" />
         </svg>
     </button>
 
-    <!-- Dashboard View Container -->
-    <section id="dashboard-view" class="fixed inset-0 z-40 bg-[#fdfbf7]/95 backdrop-blur-md opacity-0 pointer-events-none transition-all duration-500 overflow-y-auto p-8 pt-24 pb-24">
+    <!-- Dashboard View Container (The Wall) -->
+    <section id="dashboard-view" class="relative z-10 w-full min-h-screen pt-24 pb-24 px-8">
         <div class="max-w-6xl mx-auto">
-            <h2 class="text-5xl md:text-6xl font-['Caveat'] text-slate-800 mb-12 text-center drop-shadow-sm font-semibold">History Desk</h2>
+            <div class="flex items-center justify-between mb-12">
+                <h2 id="wall-title" class="text-5xl md:text-6xl font-['Caveat'] text-slate-800 dark:text-slate-100 drop-shadow-sm font-semibold transition-colors duration-500">My Desk</h2>
+                <div class="flex items-center gap-3">
+                    <button id="history-toggle-btn" class="bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm text-slate-600 dark:text-slate-300 px-4 py-3 rounded-xl shadow-sm hover:text-slate-800 dark:hover:text-white hover:scale-105 transition-all interactive font-['Inter'] font-medium flex items-center gap-2 border border-slate-200 dark:border-slate-700">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 11-18 0 9 9 0 0118 0z" />
+                        </svg>
+                        <span id="history-toggle-text">History</span>
+                    </button>
+                    <button id="new-note-btn" class="bg-slate-800 text-white dark:bg-slate-700 px-6 py-3 rounded-xl shadow-lg hover:bg-slate-700 dark:hover:bg-slate-600 hover:scale-105 transition-all interactive font-['Inter'] font-medium flex items-center gap-2">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-5 h-5"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" /></svg>
+                        New Note
+                    </button>
+                </div>
+            </div>
             
-            <h3 id="active-notes-title" class="text-3xl font-['Caveat'] text-slate-700 mb-6 hidden">Active Notes</h3>
+            <h3 id="active-notes-title" class="text-3xl font-['Caveat'] text-slate-700 dark:text-slate-300 mb-6 hidden transition-colors duration-500">Active Notes</h3>
             <div id="dashboard-grid-active" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8 mb-16">
                 <!-- Mini notes injected by JS -->
             </div>
 
             <div id="trashed-section-container" class="hidden">
-                <h3 class="text-3xl font-['Caveat'] text-slate-700 mb-6 border-t border-slate-200 pt-8">Completed Notes</h3>
+                <h3 class="text-3xl font-['Caveat'] text-slate-700 dark:text-slate-300 mb-6 border-t border-slate-200 dark:border-slate-700 pt-8 transition-colors duration-500">Completed Notes</h3>
                 <div id="dashboard-grid-trashed" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
                     <!-- Trashed notes injected by JS -->
                 </div>
@@ -43,9 +72,9 @@
         </div>
     </section>
 
-    <!-- Main App Container -->
-    <main id="editor-view" class="w-full max-w-lg relative z-10 floating transition-all duration-500">
-        <div id="notebook-page" class="notebook-page max-h-[90vh] bg-[#fdfbf7] rounded-xl shadow-[0_20px_50px_rgba(0,0,0,0.1)] p-8 md:p-12 relative overflow-hidden" draggable="true">
+    <!-- Main App Container (Modal Popup) -->
+    <main id="editor-view" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/40 backdrop-blur-sm opacity-0 pointer-events-none transition-all duration-300">
+        <div id="notebook-page" class="w-full max-w-lg notebook-page max-h-[90vh] bg-[#fdfbf7] rounded-xl shadow-[0_20px_50px_rgba(0,0,0,0.1)] p-8 md:p-12 relative overflow-y-auto transition-all duration-300 transform scale-95" draggable="true">
             <!-- Notebook Binding Holes (Decoration) -->
             <div class="absolute left-4 top-0 bottom-0 flex flex-col justify-between py-12 pointer-events-none">
                 <div class="w-4 h-4 rounded-full bg-[#e2dfd8] shadow-inner"></div>
@@ -57,28 +86,23 @@
 
             <!-- Header -->
             <header class="mb-6 pl-8 relative z-10 flex items-center justify-between">
-                <div>
-                    <h1 class="text-4xl md:text-5xl font-['Caveat'] text-slate-800 tracking-wide font-semibold">My Notes</h1>
-                    <p class="text-slate-500 font-['Inter'] text-sm mt-1">Antigravity edition</p>
+                <!-- Editable Title -->
+                <div class="flex-1 mr-4">
+                    <input type="text" id="note-title-input" class="text-4xl md:text-5xl font-['Caveat'] text-slate-800 tracking-wide font-semibold bg-transparent border-b-2 border-transparent hover:border-slate-300 focus:border-slate-400 outline-none w-full transition-colors interactive" value="Untitled Note">
+                    <p class="text-slate-500 font-['Inter'] text-sm mt-1 transition-colors duration-500" id="note-date-display">Created Today</p>
                 </div>
                 
-                <!-- Date Navigator -->
-                <div class="flex items-center gap-3 text-slate-600 bg-slate-100/50 px-3 py-1.5 rounded-full backdrop-blur-sm shadow-sm border border-slate-200/50">
-                    <button id="prev-day" class="p-1 hover:text-slate-800 hover:bg-slate-200 rounded-full transition-colors interactive">
-                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-4 h-4"><path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5" /></svg>
-                    </button>
-                    <span id="current-date-display" class="font-['Inter'] text-sm font-medium min-w-[80px] text-center">Today</span>
-                    <button id="next-day" class="p-1 hover:text-slate-800 hover:bg-slate-200 rounded-full transition-colors interactive opacity-50 cursor-not-allowed" disabled>
-                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-4 h-4"><path stroke-linecap="round" stroke-linejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" /></svg>
-                    </button>
-                </div>
+                <!-- Close Button -->
+                <button id="close-note-btn" class="p-2 bg-slate-100/50 hover:bg-slate-200 rounded-full transition-colors interactive text-slate-600 hover:text-slate-800 shadow-sm border border-slate-200/50" title="Close Note">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-5 h-5"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" /></svg>
+                </button>
             </header>
 
             <!-- Input Area -->
             <div class="mb-8 pl-8 relative z-10">
                 <form id="task-form" class="flex items-center gap-3">
                     <input type="text" id="task-input" placeholder="What needs to be done?" 
-                        class="w-full bg-transparent border-b-2 border-slate-300 focus:border-slate-500 outline-none px-2 py-2 font-['Inter'] text-lg transition-colors placeholder:text-slate-400 interactive"
+                        class="w-full bg-transparent border-b-2 border-slate-300 focus:border-slate-500 outline-none px-2 py-2 font-['Inter'] text-lg transition-colors duration-500 placeholder:text-slate-400 interactive"
                         autocomplete="off">
                     <button type="submit" class="bg-slate-800 text-white rounded-full p-2 w-10 h-10 flex items-center justify-center hover:bg-slate-700 transition-colors shadow-lg interactive group">
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-5 h-5 group-hover:rotate-90 transition-transform">

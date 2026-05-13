@@ -6,6 +6,13 @@
     --accent-red: #ef4444;
 }
 
+.dark {
+    --bg-color: #0f172a; /* Slate 900 for app background */
+    --line-color: #334155;
+    --primary-text: #f1f5f9;
+    --accent-red: #f87171;
+}
+
 body {
     background-color: var(--bg-color);
     /* Hide default cursor */
@@ -14,7 +21,7 @@ body {
 
 /* Lined paper effect */
 .notebook-page {
-    background-image: linear-gradient(var(--bg-color) 0.1em, transparent 0.1em);
+    background-image: linear-gradient(#eef2f5 0.1em, transparent 0.1em);
     background-size: 100% 2.5rem;
     background-position: 0 4rem; /* Start lines below header */
 }
@@ -110,6 +117,10 @@ a, button, input, .interactive {
 .task-completed .task-text {
     color: #94a3b8; /* Light gray */
     transition: color 0.4s ease;
+}
+
+.dark .task-completed .task-text {
+    color: #475569;
 }
 
 /* Delete Button hover effect */
@@ -255,6 +266,7 @@ body.is-dragging #dustbin {
     transform: scale(0.9) rotate(var(--rot, 15deg)) skewX(-5deg);
     filter: drop-shadow(4px 8px 10px rgba(0,0,0,0.2)) brightness(0.95) grayscale(20%);
 }
+
 
 .mini-note-trashed:hover {
     transform: scale(0.95) rotate(var(--rot, 15deg)) skewX(-2deg);

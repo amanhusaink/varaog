@@ -1,15 +1,15 @@
 {
-  "name": "antigravity-notes",
+  "name": "vara",
   "version": "1.0.0",
-  "description": "Antigravity Notes - Desktop App",
+  "description": "Vara - The Premium Notebook",
   "main": "main.js",
   "scripts": {
     "start": "electron .",
     "build": "electron-builder"
   },
   "build": {
-    "appId": "com.antigravity.notes",
-    "productName": "Antigravity Notes",
+    "appId": "com.vara.app",
+    "productName": "Vara",
     "directories": {
       "output": "dist"
     },
