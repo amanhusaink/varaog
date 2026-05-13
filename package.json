@@ -14,12 +14,16 @@
       "output": "dist"
     },
     "files": [
-      "**/*",
-      "!dist",
-      "!build"
+      "index.html",
+      "style.css",
+      "script.js",
+      "main.js",
+      "draw.js",
+      "favicon.png",
+      "package.json"
     ],
     "mac": {
-      "target": "dmg",
+      "target": "zip",
       "icon": "build/icon.icns",
       "category": "public.app-category.productivity"
     },
